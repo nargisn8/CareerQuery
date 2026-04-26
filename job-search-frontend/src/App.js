@@ -14,6 +14,7 @@ const Home = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [newJob, setNewJob] = useState({ title: '', location: '', jobType: 'Full-time', description: '' });
+  const [editingId, setEditingId] = useState(null);
 
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
@@ -34,13 +35,11 @@ const Home = () => {
         params: {
           keyword: keyword.trim() || null,
           location: location.trim() || null,
-          // jobType: jobType || null,  <-- Bura müvəqqəti rəyə al
           page: page,
           size: 10
         }
       });
 
-      // SPRING BOOT PAGE FORMATI SÖRTALANIR (Datanın görünməsi üçün ən kritik yer)
       if (response.data && response.data.content) {
         setJobs(response.data.content);
         setTotalPages(response.data.totalPages);
@@ -64,31 +63,37 @@ const Home = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [fetchJobs]);
 
-  const handleCreateJob = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const jobData = { ...newJob, owner: user };
     try {
-      const jobData = { ...newJob, owner: user };
-      const response = await axios.post('http://localhost:8080/api/jobs', jobData);
-
-      // Əgər bura çatırsa, deməli hər şey superdir
-      alert("✅ Təbriklər! Elan paylaşıldı!");
+      if (editingId) {
+        await axios.put(`http://localhost:8080/api/jobs/${editingId}`, jobData);
+        alert("✅ Elan yeniləndi!");
+      } else {
+        await axios.post('http://localhost:8080/api/jobs', jobData);
+        alert("✅ Elan paylaşıldı!");
+      }
+      setEditingId(null);
       setNewJob({ title: '', location: '', jobType: 'Full-time', description: '' });
       fetchJobs();
     } catch (error) {
-      // Əgər bazada elanı görürsənsə, deməli sadəcə Response formatında problem var
-      console.error("Xətanın detalları:", error.response);
-
-      // Diaqnostika üçün:
-      if (error.response && error.response.status === 200) {
-        alert("✅ Elan əslində yaradıldı! (Response format xətası)");
-        fetchJobs();
-      } else {
-        alert("❌ Həqiqi xəta baş verdi. Konsola bax.");
-      }
+      console.error("Xəta:", error);
+      alert("❌ Problem baş verdi!");
     }
   };
 
-  // DELETE FUNKSİYASI - Tam işlək vəziyyətdə
+  const handleEdit = (job) => {
+    setNewJob({
+      title: job.title,
+      location: job.location,
+      jobType: job.jobType,
+      description: job.description || ''
+    });
+    setEditingId(job.id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleDelete = async (id) => {
     if (window.confirm("Bu elanı silmək istədiyinizə əminsiniz?")) {
       try {
@@ -129,8 +134,8 @@ const Home = () => {
         {user ? (
             <section className="create-job-section">
               <div className="form-card">
-                <h3><i className="fas fa-plus-circle"></i> Yeni İş Elanı Paylaş</h3>
-                <form onSubmit={handleCreateJob} className="form-grid">
+                <h3><i className="fas fa-plus-circle"></i> {editingId ? "Elanı Redaktə Et" : "Yeni İş Elanı Paylaş"}</h3>
+                <form onSubmit={handleSubmit} className="form-grid">
                   <input type="text" placeholder="İşin adı" required value={newJob.title} onChange={(e) => setNewJob({ ...newJob, title: e.target.value })} />
                   <input type="text" placeholder="Şəhər" required value={newJob.location} onChange={(e) => setNewJob({ ...newJob, location: e.target.value })} />
                   <select value={newJob.jobType} onChange={(e) => setNewJob({ ...newJob, jobType: e.target.value })}>
@@ -142,7 +147,10 @@ const Home = () => {
                   <div className="form-group-full">
                     <textarea placeholder="Məlumat..." required value={newJob.description} onChange={(e) => setNewJob({ ...newJob, description: e.target.value })}></textarea>
                   </div>
-                  <button type="submit" className="btn-submit form-group-full">Paylaş</button>
+                  <button type="submit" className="btn-submit form-group-full">
+                    {editingId ? "Yadda Saxla" : "Paylaş"}
+                  </button>
+                  {editingId && <button onClick={() => { setEditingId(null); setNewJob({ title: '', location: '', jobType: 'Full-time', description: '' }); }} className="btn-cancel">Ləğv et</button>}
                 </form>
               </div>
             </section>
@@ -180,7 +188,7 @@ const Home = () => {
                         <div className="owner-controls">
                           {user && job.owner && (user.id === job.owner.id) ? (
                               <>
-                                <button className="btn-edit" onClick={() => alert("Edit funksiyası hazırlanır!")}>
+                                <button className="btn-edit" onClick={() => handleEdit(job)}>
                                   <i className="fas fa-edit"></i>
                                 </button>
                                 <button className="btn-delete" onClick={() => handleDelete(job.id)}>
@@ -198,8 +206,7 @@ const Home = () => {
                     </div>
                     <div className="job-meta">
                       <span>📍 {job.location}</span>
-                      {/* Sığortalı göstərim: Əgər owner gəlməsə xəta verməsin */}
-                      {job.owner ? <span className="owner-tag"> | 👤 {job.owner ? job.owner.username : "Sistem İstifadəçisi"}</span> : <span className="owner-tag"> | 👤 Anonim</span>}
+                      <span className="owner-tag"> | 👤 {job.owner ? job.owner.username : "Anonim"}</span>
                     </div>
                     <p className="desc">{job.description}</p>
                   </div>

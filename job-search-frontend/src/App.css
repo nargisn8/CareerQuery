@@ -358,4 +358,25 @@ body {
   border-radius: 16px;
 }
 
+.btn-cancel {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+
+  display: block;
+  width: fit-content;
+  /* MARGİN BURADA DƏYİŞDİ: */
+  margin: 10px 0 0 0; /* Üstdən 10px, sağdan, altdan və soldan 0 */
+  text-align: left;
+}
+
+.btn-cancel:hover {
+  opacity: 0.8;
+}
 
