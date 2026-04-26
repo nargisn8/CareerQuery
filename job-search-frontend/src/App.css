@@ -1,0 +1,361 @@
+/* --- 1. Qlobal Dəyişənlər --- */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --dark: #1e293b;
+  --bg: #f1f5f9;
+  --white: #ffffff;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--dark);
+  font-family: 'Inter', -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- 2. Layout --- */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* --- 3. Header və User Naviqasiyası --- */
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.header-main h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.user-info-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.welcome-msg {
+  font-weight: 500;
+  color: #475569;
+}
+
+.btn-logout {
+  background-color: #fee2e2 !important;
+  color: var(--danger) !important;
+  border: 1px solid #fecaca !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-logout:hover {
+  background-color: var(--danger) !important;
+  color: white !important;
+}
+
+.auth-buttons a {
+  text-decoration: none;
+  margin-left: 15px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.btn-register-nav {
+  background: var(--primary);
+  color: white !important;
+  padding: 8px 18px;
+  border-radius: 8px;
+}
+
+/* --- 4. Auth (Giriş/Qeydiyyat) Səhifələri --- */
+.auth-fullscreen-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: #f8fafc;
+  z-index: 99999;
+}
+
+.auth-card {
+  background-color: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.auth-card h2 { margin-bottom: 25px; color: var(--dark); }
+
+/* Auth Inputları alt-alta və geniş */
+.auth-card input {
+  width: 100% !important;
+  padding: 14px !important;
+  margin-bottom: 15px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  font-size: 1rem !important;
+  box-sizing: border-box !important;
+}
+
+/* --- 5. İş Paylaşma Formu --- */
+.form-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  margin-bottom: 40px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-group-full { grid-column: span 2; }
+
+.form-card input, .form-card select, .form-card textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.form-card textarea { height: 100px; resize: none; }
+
+.btn-submit {
+  background-color: var(--primary) !important;
+  color: white !important;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-submit:hover { background-color: var(--primary-dark) !important; }
+
+/* --- 6. Axtarış Paneli (Yeniləndi) --- */
+.search-box {
+  display: flex;
+  gap: 15px;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-wrapper i {
+  position: absolute;
+  left: 18px;
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.search-input-wrapper input {
+  padding: 14px 14px 14px 48px !important; /* İkon üçün geniş yer */
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-input-wrapper input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* --- 7. İş Kartları --- */
+.job-card {
+  background: white;
+  padding: 25px;
+  margin-bottom: 15px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-left: 5px solid var(--primary);
+  transition: transform 0.2s;
+}
+
+
+/* Başlıq və ikonaları eyni xəttə (simmetrik) gətirir */
+.job-card .job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Şaquli mərkəzləmə */
+  margin-bottom: 20px;
+}
+
+/* Badge və ikonaları yan-yana düzür */
+.job-card .job-actions {
+  display: flex;
+  align-items: center; /* Badge və ikonaları bir-birinə nəzərən mərkəzləyir */
+  gap: 15px; /* Aradakı məsafəni bir az artırdım ki, nəfəs alsın */
+}
+
+/* İkonaların öz qutusu */
+.job-card .owner-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Əgər gözünə hələ də bir az yuxarıda görünsə, aşağıdakı sətri aktiv et: */
+  /* margin-top: 2px; */
+}
+
+/* İkonaların ölçüsünü bir az böyüdək ki, badge ilə simmetrik olsun */
+.job-card .btn-edit,
+.job-card .btn-delete,
+.job-card .btn-edit-disabled,
+.job-card .btn-delete-disabled {
+  font-size: 1.2rem;
+  line-height: 1; /* Artıq boşluqları silir */
+  display: flex;
+  align-items: center;
+}
+/* Əgər yalnız ikonaları (badge-siz) aşağı salmaq istəsən: */
+.job-card .owner-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px; /* Full-time sözündən aşağı məsafə */
+}
+
+.job-card:hover { transform: translateY(-3px); }
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.job-header h3 { margin: 0; color: var(--dark); font-size: 1.25rem; }
+
+.badge {
+  background: #dbeafe;
+  color: var(--primary);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.job-meta {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.owner-tag { font-weight: 600; color: #475569; }
+
+/* --- 8. Edit/Delete İkonları (Sənin İstədiyin) --- */
+.owner-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.owner-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.2s;
+}
+
+.btn-edit { color: var(--primary); }
+.btn-edit:hover { transform: scale(1.2); }
+
+.btn-delete { color: var(--danger); }
+.btn-delete:hover { transform: scale(1.2); }
+
+.btn-edit-disabled, .btn-delete-disabled {
+  color: #cbd5e1;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* --- 9. Paqinasiya --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.pagination button {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-info strong { color: var(--primary); }
+
+/* --- 10. Digər --- */
+.separator {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 40px 0;
+}
+
+.no-jobs {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  background: white;
+  border-radius: 16px;
+}
+
+
