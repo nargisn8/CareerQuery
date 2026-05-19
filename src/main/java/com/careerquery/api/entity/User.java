@@ -21,9 +21,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String role = "ROLE_USER"; // Defolt olaraq hər kəs sadə istifadəçidir
+    private String role = "ROLE_USER";
 
-    // Bir istifadəçinin çoxlu iş elanı ola bilər
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Job> jobs;
 }

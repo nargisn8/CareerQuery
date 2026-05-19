@@ -3,14 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    // 1. Obyektin içində 'username' yox, 'email' olmalıdır
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Backend-ə birbaşa credentials göndərilir
             const res = await axios.post('http://localhost:8080/api/auth/login', credentials);
 
             localStorage.setItem('user', JSON.stringify(res.data));
@@ -32,7 +30,6 @@ const Login = () => {
                         type="email"
                         placeholder="Gmail ünvanınız"
                         required
-                        // 2. Buradakı credentials.email yazılışı useState ilə eyni olmalıdır
                         onChange={e => setCredentials({...credentials, email: e.target.value})}
                     />
                     <input

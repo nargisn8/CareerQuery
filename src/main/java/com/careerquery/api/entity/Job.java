@@ -43,7 +43,6 @@ public class Job {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    // Bu hissə JSON dövrünün qarşısını alır və owner məlumatını React-a ötürür
     @JsonIgnoreProperties({"password", "role", "jobs", "enabled", "authorities", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
     private User owner;
 }

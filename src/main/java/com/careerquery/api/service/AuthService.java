@@ -12,7 +12,6 @@ public class AuthService {
     private UserRepository userRepository;
 
     public User register(User user) {
-        // Əgər eyni email ilə istifadəçi varsa, xəta verək ki, bazada dublikat olmasın
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new RuntimeException("Bu email artıq istifadə olunub!");
         }
@@ -21,9 +20,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    // ARQUMENT ADINI 'email' ETDİK
     public User login(String email, String password) {
-        // BURADA findByUsername YOX, findByEmail ÇAĞIRILMALIDIR
         return userRepository.findByEmail(email)
                 .filter(u -> u.getPassword().equals(password))
                 .orElseThrow(() -> new RuntimeException("Email və ya şifrə yanlışdır!"));

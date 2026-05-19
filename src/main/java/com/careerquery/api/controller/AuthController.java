@@ -28,7 +28,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         try {
-            // "username" yerinə "email" yazırıq!
+
             User user = authService.login(credentials.get("email"), credentials.get("password"));
             return ResponseEntity.ok(user);
         } catch (Exception e) {

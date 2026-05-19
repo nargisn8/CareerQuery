@@ -29,12 +29,10 @@ public class JobService {
         return jobRepository.findAll(JobSpecification.getJobsByFilters(keyword, location, jobType), pageable);
     }
 
-    // Yeni iş elanı yaratmaq
     public Job createJob(Job job) {
         return jobRepository.save(job);
     }
 
-    // Mövcud iş elanını yeniləmək
     public Job updateJob(Long id, Job jobDetails) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("İş tapılmadı: " + id));
@@ -47,7 +45,6 @@ public class JobService {
         return jobRepository.save(job);
     }
 
-    // İş elanını silmək
     public void deleteJob(Long id) {
         jobRepository.deleteById(id);
     }

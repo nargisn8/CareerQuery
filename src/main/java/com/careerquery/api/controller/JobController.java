@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 
-@CrossOrigin(origins = "*", allowedHeaders = "*") // Hər yerdən gələn müraciətə icazə ver
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/jobs")
 public class JobController {
@@ -28,7 +28,6 @@ public class JobController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        // Importları (PageRequest, Sort) yuxarıda əlavə etsən, bura belə qısa olacaq:
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
 
         return jobService.getFilteredJobs(keyword, location, jobType, pageable);
@@ -39,14 +38,12 @@ public class JobController {
 //        return jobService.createJob(job);
 //    }
 
-    // Düzgün variant belə olmalıdır:
     @PostMapping
     public ResponseEntity<Job> createJob(@RequestBody Job job) {
         Job savedJob = jobService.createJob(job);
-        return ResponseEntity.ok(savedJob); // Mütləq ResponseEntity ilə geri döndər!
+        return ResponseEntity.ok(savedJob);
     }
 
-    // JobController.java daxilində
     @PutMapping("/{id}")
     public ResponseEntity<Job> updateJob(@PathVariable Long id, @RequestBody Job jobDetails) {
         return ResponseEntity.ok(jobService.updateJob(id, jobDetails));

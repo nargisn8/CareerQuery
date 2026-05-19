@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Bu sətir AuthService-dəki qırmızı xətanı aradan qaldıracaq:
     Optional<User> findByEmail(String email);
 }

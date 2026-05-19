@@ -16,7 +16,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Təhlükəsizlik yoxlamasını dayandırırıq
+                .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
                     corsConfiguration.setAllowedOrigins(java.util.List.of("http://localhost:3000", "http://localhost:3001"));
@@ -25,7 +25,7 @@ public class SecurityConfig {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // BÜTÜN qapıları açırıq (Test üçün)
+                        .anyRequest().permitAll()
                 );
 
         return http.build();
@@ -33,7 +33,6 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        // Hələlik bazadan yox, yaddaşdan (in-memory) bir admin yaradırıq
         UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("admin123")

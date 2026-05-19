@@ -19,7 +19,7 @@ const Register = () => {
 
     return (
         <div className="auth-fullscreen-overlay">
-            {/* BU DİV MÜTLƏQ OLMALIDIR */}
+            {}
             <div className="auth-card">
                 <h2>📝 Qeydiyyat</h2>
                 <form onSubmit={handleSubmit}>
